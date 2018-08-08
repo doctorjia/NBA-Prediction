@@ -5,14 +5,14 @@ import numpy as np
 
 class NaiveBayes(object):
     def getTrainSet(self):
-        dataSet = pd.read_excel('E://SJTU//VE488//NB//testall.xlsx')
+        dataSet = pd.read_excel('E://SJTU//VE488//NB//newNBtrain.xlsx')
         dataSetNP = np.array(dataSet)  #将数据由dataframe类型转换为数组类型
         trainData = dataSetNP[:,0:dataSetNP.shape[1]-1]   #训练数据x1,x2
         labels = dataSetNP[:,dataSetNP.shape[1]-1]        #训练数据所对应的所属类型Y
         return trainData, labels
 
     def getValSet(self):
-        dataSet = pd.read_excel('E://SJTU//VE488//NB//val1415.xlsx')
+        dataSet = pd.read_excel('E://SJTU//VE488//NB//newNBval.xlsx')
         dataSetNP = np.array(dataSet)  #将数据由dataframe类型转换为数组类型
         valData = dataSetNP[:,0:dataSetNP.shape[1]-1]   #训练数据x1,x2
         vallabels = dataSetNP[:,dataSetNP.shape[1]-1]        #训练数据所对应的所属类型Y
@@ -48,7 +48,7 @@ class NaiveBayes(object):
             for x in features:
                 pkey = str(x) + '|' + str(y)
                 P[pkey] = P_xy[str(x)+'*'+str(y)] / float(P_y[y])    #P[X1/Y] = P[X1Y]/P[Y]
-                #print(pkey + ' has a probability of ' + str(P[pkey]))
+                print(pkey + ' has a probability of ' + str(P[pkey]))
 
         #求[2,'S']所属类别
         F = {}   #[2,'S']属于各个类别的概率
@@ -68,13 +68,9 @@ if __name__ == '__main__':
     # x1,x2
     valData, vallabels = nb.getValSet()
     for i in range(len(vallabels)):
-        feature = valData[i, 0:8]
+        feature = valData[i, 0:16]
         result = nb.classify(valData, vallabels, feature)
         print(feature, 'in', result)
-    ant, antlabel = nb.getPre()
-    feature = ant[:, 0:8]
-    result = nb.classify(ant, antlabel, feature)
-    print(feature, 'in', result)
 
     '''
     features1 = ['A0', 'B0', 'C0', 'D0', 'E0', 'F0', 'G0', 'H0']
